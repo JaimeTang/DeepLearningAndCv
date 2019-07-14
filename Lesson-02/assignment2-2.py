@@ -13,13 +13,14 @@ def main():
         print("Wrong padding way.")
         return
     """
-    kernel = np.array(
+    kernel = (1/9)*np.array(
         [
-            [0, 1, 0],
-            [1, -4, 1],
-            [0, 1, 0]
+            [1, 1, 1],
+            [1, 1, 1],
+            [1, 1, 1]
         ]
     )
+    print(kernel)
     output = medianBlur(img, kernel, padding_way)
 
     cv2.imshow("or_img", img)
@@ -27,6 +28,8 @@ def main():
     key = cv2.waitKey()
     if key == 27:
         cv2.destroyAllWindows()
+
+
 
 if __name__ == '__main__':
     main()
