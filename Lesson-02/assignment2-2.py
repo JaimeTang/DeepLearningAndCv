@@ -47,8 +47,6 @@ def ransacMatching(A, B):
         print("Not enough matches are found - %d/%d" % (len(good), MIN_MATCH_COUNT))
         matchesMask = None
 
-
-
 def main():
     img_right = cv2.imread("img/book_right.jpg", 0)
     img_left = cv2.imread("img/book_left.jpg", 0)
