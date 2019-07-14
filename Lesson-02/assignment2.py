@@ -98,14 +98,4 @@ But please DO REMEMBER procedures of SIFT and HoG. For those who're interested i
    You are supposed to hand in this project in 2-3 weeks.
 			
 '''
-      
 
-def medianBlur(img, kernel, padding_way):
-    # img & kernel is List of List; padding_way a string
-    # Please finish your code under this blank
-    pass
-
-
-def ransacMatching(A, B):
-    # A & B: List of List
-    pass
