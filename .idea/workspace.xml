@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="872785cb-d273-4566-b029-1ad1ee8a9cfb" name="Default Changelist" comment="update new content">
-      <change afterPath="$PROJECT_DIR$/Lesson-02/assignment2-3.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lesson-02/.ipynb_checkpoints/week2_code_uni-checkpoint.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Lesson-02/.ipynb_checkpoints/week2_code_uni-checkpoint.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lesson-02/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/Lesson-02/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lesson-02/ReadingNotes/A1.Image_Stitching.md" beforeDir="false" afterPath="$PROJECT_DIR$/Lesson-02/ReadingNotes/A1.Image_Stitching.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lesson-02/week2_code_uni.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Lesson-02/week2_code_uni.ipynb" afterDir="false" />
-    </list>
+    <list default="true" id="872785cb-d273-4566-b029-1ad1ee8a9cfb" name="Default Changelist" comment="update new content" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,7 +12,7 @@
     <session id="819385361">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="5" />
+          <entry key="project.closed" value="6" />
           <entry key="project.open.time.0" value="1" />
           <entry key="project.open.time.2" value="2" />
           <entry key="project.open.time.6" value="2" />
@@ -57,26 +50,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Lesson-02/assignment2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="313">
+            <state relative-caret-position="370">
               <caret line="92" column="29" selection-start-line="92" selection-start-column="29" selection-end-line="92" selection-end-column="29" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Lesson-02/assignment2-3.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="72" column="66" lean-forward="true" selection-start-line="72" selection-start-column="66" selection-end-line="72" selection-end-column="66" />
-              <folding>
-                <element signature="e#0#10#0" expanded="true" />
-                <marker date="1563350183064" expanded="true" signature="657:820" ph="..." />
-                <marker date="1563350183064" expanded="true" signature="885:1650" ph="..." />
-                <marker date="1563350183064" expanded="true" signature="1712:2353" ph="..." />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -326,14 +304,13 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.14332893" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.32907802" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32907802" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -388,13 +365,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Lesson-02/assignment2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="313">
-          <caret line="92" column="29" selection-start-line="92" selection-start-column="29" selection-end-line="92" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Lesson-02/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
@@ -418,14 +388,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Lesson-02/assignment2-3.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="72" column="66" lean-forward="true" selection-start-line="72" selection-start-column="66" selection-end-line="72" selection-end-column="66" />
+        <state relative-caret-position="518">
+          <caret line="89" column="30" lean-forward="true" selection-start-line="89" selection-start-column="30" selection-end-line="89" selection-end-column="30" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
             <marker date="1563350183064" expanded="true" signature="657:820" ph="..." />
             <marker date="1563350183064" expanded="true" signature="885:1650" ph="..." />
             <marker date="1563350183064" expanded="true" signature="1712:2353" ph="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Lesson-02/assignment2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="370">
+          <caret line="92" column="29" selection-start-line="92" selection-start-column="29" selection-end-line="92" selection-end-column="29" />
         </state>
       </provider>
     </entry>
