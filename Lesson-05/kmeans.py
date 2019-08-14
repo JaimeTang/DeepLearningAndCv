@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 import cv2
 
-#np.random.seed(42)
+np.random.seed(42)
 
 
 def assignment(df, center, colmap):
@@ -72,6 +72,7 @@ def main():
 
         if closest_center.equals(df['closest']):
             break
+
 
 
 if __name__=='__main__':

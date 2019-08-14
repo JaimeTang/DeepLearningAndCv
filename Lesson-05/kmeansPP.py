@@ -46,7 +46,7 @@ def main():
         'y': [39, 36, 30, 52, 54, 20, 46, 55, 59, 63, 70, 66, 63, 58, 23, 14, 8, 19, 7, 24, 77]
     })
 
-    k = 3
+    k = 2
 
     first_center = [np.random.randint(0,80), np.random.randint(0,80)]
     center = select_center(first_center, df, k)
