@@ -1,8 +1,6 @@
 # It's empty. Surprise!
 # Please complete this by yourself.
 import torch.nn as nn
-import torch.nn.functional as F
-
 
 class Net(nn.Module):
     def __init__(self):
@@ -19,7 +17,7 @@ class Net(nn.Module):
                                    nn.Dropout2d(p=0.2))
 
         self.fc1 = nn.Sequential(nn.Linear(150, 2),
-                                 nn.Sigmoid())
+                                 nn.Softmax())
         self.fc2 = nn.Sequential(nn.Linear(150, 3),
                                  nn.Softmax())
 

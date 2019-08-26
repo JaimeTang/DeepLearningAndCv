@@ -149,10 +149,9 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=50):
 
             Accuracy_list_classes[phase].append(100 * epoch_acc_classes)
             Accuracy_list_species[phase].append(100 * epoch_acc_species)
-            print('{} Loss: {:.4f}  Acc_species: {:.2%}'.format(phase, epoch_loss,epoch_acc_species))
+            print('{} Loss: {:.4f}  Acc_species: {:.2%}  Acc_classes: {:.2%}'.format(phase, epoch_loss,epoch_acc_species,epoch_acc_classes))
 
             if phase == 'val' and epoch_acc > best_acc:
-
                 best_acc = epoch_acc
                 best_model_wts = copy.deepcopy(model.state_dict())
                 print('Best val species Acc: {:.2%}'.format(best_acc))
@@ -164,7 +163,6 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=50):
 
 network = Net().to(device)
 optimizer = optim.SGD(network.parameters(), lr=0.01, momentum=0.9)
-#optimizer = optim.Adam(network.parameters(), lr=0.1)
 criterion = nn.CrossEntropyLoss()
 exp_lr_scheduler = lr_scheduler.StepLR(optimizer, step_size=1, gamma=0.1) # Decay LR by a factor of 0.1 every 1 epochs
 model, Loss_list, Accuracy_list_classes, Accuracy_list_species = train_model(network, criterion, optimizer, scheduler=exp_lr_scheduler, num_epochs=NUM_EPOCGES)
@@ -195,28 +193,3 @@ plt.title('train and val Species acc vs. epoches')
 plt.ylabel('Accuracy')
 plt.savefig("train and val Acc vs epoches.jpg")
 plt.close('all')
-
-######################################## Visualization ##################################
-def visualize_model(model):
-    model.eval()
-    with torch.no_grad():
-        for i, data in enumerate(data_loaders['val']):
-            inputs = data['image']
-            labels_classes = data['classes'].to(device)
-            labels_species = data['species'].to(device)
-
-            x_classes, x_species = model(inputs.to(device))
-            x_classes = x_classes.view(-1,2)
-            x_species = x_species.view( -1,3)
-            _, preds_classes = torch.max(x_classes, 1)
-            _, preds_species = torch.max(x_species, 1)
-
-            print(inputs.shape)
-            plt.imshow(transforms.ToPILImage()(inputs.squeeze(0)))
-            plt.title('predicted classes: {}\n ground-truth classes:{}\n predicted species: {}\n ground-truth species:{}'.format(CLASSES[preds_classes],
-                                                                               CLASSES[labels_classes],
-                                                                               SPECIES[preds_species],
-                                                                               SPECIES[labels_species]))
-            plt.show()
-
-visualize_model(model)
