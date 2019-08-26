@@ -23,6 +23,8 @@ class Net(nn.Module):
         self.fc2 = nn.Sequential(nn.Linear(150, 3),
                                  nn.Softmax())
 
+
+
     def forward(self, input):
         x = self.conv(input)
         x = x.view(-1, 6 * 123 * 123)
