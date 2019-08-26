@@ -1,2 +1,0 @@
-# DeepLearningAndCv
-DeepLearningAndCv

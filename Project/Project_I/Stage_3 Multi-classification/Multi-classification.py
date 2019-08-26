@@ -22,7 +22,7 @@ TRAIN_ANNO = 'Multi_train_annotation.csv'
 VAL_ANNO = 'Multi_val_annotation.csv'
 CLASSES = ['Mammals', 'Birds']
 SPECIES = ['rabbits', 'rats', 'chickens']
-NUM_EPOCGES = 20
+NUM_EPOCGES = 50
 
 class MyDataset(Dataset):
 
@@ -163,8 +163,8 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=50):
     return model, Loss_list,Accuracy_list_classes ,Accuracy_list_species
 
 network = Net().to(device)
-# optimizer = optim.SGD(network.parameters(), lr=0.01, momentum=0.9)
-optimizer = optim.Adam(network.parameters(), lr=0.01)
+optimizer = optim.SGD(network.parameters(), lr=0.01, momentum=0.9)
+#optimizer = optim.Adam(network.parameters(), lr=0.1)
 criterion = nn.CrossEntropyLoss()
 exp_lr_scheduler = lr_scheduler.StepLR(optimizer, step_size=1, gamma=0.1) # Decay LR by a factor of 0.1 every 1 epochs
 model, Loss_list, Accuracy_list_classes, Accuracy_list_species = train_model(network, criterion, optimizer, scheduler=exp_lr_scheduler, num_epochs=NUM_EPOCGES)
