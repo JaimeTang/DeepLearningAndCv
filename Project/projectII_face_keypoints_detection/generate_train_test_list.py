@@ -30,9 +30,6 @@ from torch.utils.data.sampler import SubsetRandomSampler
 # 祝大家学习顺利
 
 
-
-
-
 folder_list = ['I', 'II']
 finetune_ratio = 0.8
 negsample_ratio = 0.3   # if the positive sample's iou > this ratio, we neglect it's negative samples
@@ -243,3 +240,5 @@ def generate_random_crops(shape, rects, random_times):
 
 
 
+if __name__=='__main__':
+    pass
