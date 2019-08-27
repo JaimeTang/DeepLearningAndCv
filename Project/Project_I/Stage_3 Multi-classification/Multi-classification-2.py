@@ -3,10 +3,12 @@ import matplotlib.pyplot as plt
 from torch.utils.data import DataLoader
 import torch
 from torchvision.transforms import transforms
+from Multi_Network import *
 from PIL import Image
 import pandas as pd
 import random
 from torch import optim
+import torch.nn as nn
 from torch.optim import lr_scheduler
 from torch.utils.data import Dataset
 from torchvision import models
@@ -23,6 +25,8 @@ VAL_ANNO = 'Multi_val_annotation.csv'
 CLASSES = ['Mammals', 'Birds']
 SPECIES = ['rabbits', 'rats', 'chickens']
 NUM_EPOCGES = 50
+TRANSFER = False
+
 
 class MyDataset(Dataset):
 
@@ -162,10 +166,16 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=50):
     return model, Loss_list,Accuracy_list_classes ,Accuracy_list_species
 
 
-if
+if TRANSFER:
+    network = models.resnet18(pretrained=True)
+    num_ftrs = network.fc.in_features
+    network.fc = nn.Linear(num_ftrs,2)
+    network = network.to(device)
+
 
 else:
     network = Net().to(device)
+
 optimizer = optim.SGD(network.parameters(), lr=0.01, momentum=0.9)
 criterion = nn.CrossEntropyLoss()
 exp_lr_scheduler = lr_scheduler.StepLR(optimizer, step_size=1, gamma=0.1) # Decay LR by a factor of 0.1 every 1 epochs
