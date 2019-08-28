@@ -1,10 +1,9 @@
 import numpy as np
-import cv2
 import torch
 from torchvision import transforms
 from torch.utils.data import Dataset
 from PIL import Image
-import itertools
+import matplotlib.pyplot as plt
 
 
 folder_list = ['I', 'II']
@@ -22,11 +21,7 @@ def channel_norm(img):
 def parse_line(line):
     line_parts = line.strip().split()
     img_name = line_parts[0]
-    print("-"*10)
-    print(img_name)
     rect = list(map(int, list(map(float, line_parts[1:5]))))
-    print("-" * 10)
-    print(rect)
     landmarks = list(map(float, line_parts[5: len(line_parts)]))
     return img_name, rect, landmarks
 
@@ -80,18 +75,16 @@ class FaceLandmarksDataset(Dataset):
     def __getitem__(self, idx):
         img_name, rect, landmarks = parse_line(self.lines[idx])
         # image
-        img = Image.open(img_name).convert('L')     
-        img_crop = img.crop(tuple(rect))            
+        img = Image.open(img_name).convert('L')
+        img_crop = img.crop(tuple(rect))
         landmarks = np.array(landmarks).astype(np.float32)
-		
-		
+
 		# you should let your landmarks fit to the train_boarder(112)
 		# please complete your code under this blank
 		# your code:
 
-        landmarks
-		
-		
+        #landmarks = landmarks/112
+
         sample = {'image': img_crop, 'landmarks': landmarks}
         sample = self.transform(sample)
         return sample
@@ -103,16 +96,10 @@ def load_data(phase):
         lines = f.readlines()
 
     if phase == 'Train' or phase == 'train':
-        tsfm = transforms.Compose([
-            Normalize(),                # do channel normalization
-            ToTensor()]                 # convert to torch type: NxCxHxW
-        )
+        tsfm = transforms.Compose([Normalize(), ToTensor()])
     else:
-        tsfm = transforms.Compose([
-            Normalize(),
-            ToTensor()
-        ])
-    data_set = FaceLandmarksDataset(lines, phase, transform=tsfm)
+        tsfm = transforms.Compose([Normalize(), ToTensor()])
+    data_set = FaceLandmarksDataset(lines, transform=tsfm)
     return data_set
 
 
@@ -124,18 +111,27 @@ def get_train_test_set():
 
 def main():
     ##train_set = load_data('train')
-    train_set = load_data('./data/I/label')
-    for i in range(1, len(train_set)):
+    train_set = load_data('train')
+    for i in range(0, len(train_set)):
         sample = train_set[i]
-        img = sample['image']
-        landmarks = sample['landmarks']
+        img = sample['image'][0].numpy()
+        print(img.shape)
+        landmarks = sample['landmarks'].numpy()
+        x = []
+        y = []
+        for i in range(len(landmarks)):
+            if i%2 == 0:
+                x.append(landmarks[i])
+            else:
+                y.append(landmarks[i])
         ## 请画出人脸crop以及对应的landmarks
         # please complete your code under this blank
-        cv2.imshow("img", img)
-        # plt.scatter(landmarks)
-        key = cv2.waitKey()
-        if key == 27:
-            cv2.destroyAllWindows()
+        print(x)
+        print(y)
+
+        plt.imshow(img)
+        plt.scatter(x,y,c='r')
+        plt.show()
 
 if __name__ == '__main__':
-    train_set = load_data('./data/I/label')
+    main()
