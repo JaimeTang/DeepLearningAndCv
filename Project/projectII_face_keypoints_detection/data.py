@@ -9,7 +9,6 @@ import matplotlib.pyplot as plt
 folder_list = ['I', 'II']
 train_boarder = 112
 
-
 def channel_norm(img):
     # img: ndarray, float32
     mean = np.mean(img)
@@ -17,14 +16,12 @@ def channel_norm(img):
     pixels = (img - mean) / (std + 0.0000001)
     return pixels
 
-
 def parse_line(line):
     line_parts = line.strip().split()
     img_name = line_parts[0]
     rect = list(map(int, list(map(float, line_parts[1:5]))))
     landmarks = list(map(float, line_parts[5: len(line_parts)]))
     return img_name, rect, landmarks
-
 
 class Normalize(object):
     """
@@ -40,7 +37,6 @@ class Normalize(object):
         return {'image': image,
                 'landmarks': landmarks
                 }
-
 
 class ToTensor(object):
     """
@@ -76,15 +72,16 @@ class FaceLandmarksDataset(Dataset):
         img_name, rect, landmarks = parse_line(self.lines[idx])
         # image
         img = Image.open(img_name)#.convert('L')
-        ###img_crop = img.crop(tuple(rect))
-        img_crop = img
+        h, w = img.size
+        img_crop = img.crop(tuple(rect))
+        new_h, new_w = img_crop.size
         landmarks = np.array(landmarks).astype(np.float32)
 
 		# you should let your landmarks fit to the train_boarder(112)
 		# please complete your code under this blank
 		# your code:
-
-        #landmarks = landmarks/112
+        landmarks = landmarks.reshape(-1, 2)
+        landmarks = landmarks*[new_h/h, new_w/w]
 
         sample = {'image': img_crop, 'landmarks': landmarks}
         sample = self.transform(sample)
@@ -117,22 +114,19 @@ def main():
     for i in range(0, len(train_set)):
         sample = train_set[i]
         img = sample['image'][0].numpy()
-        print(img.shape)
         landmarks = sample['landmarks'].numpy()
-        x = []
-        y = []
-        for i in range(len(landmarks)):
-            if i%2 == 0:
-                x.append(landmarks[i])
-            else:
-                y.append(landmarks[i])
+        # x = []
+        # y = []
+        # for i in range(len(landmarks)):
+        #     if i%2 == 0:
+        #         x.append(landmarks[i])
+        #     else:
+        #         y.append(landmarks[i])
         ## 请画出人脸crop以及对应的landmarks
         # please complete your code under this blank
-        print(x)
-        print(y)
-
+        print(landmarks)
         plt.imshow(img)
-        plt.scatter(x,y,c='r',s=0.3)
+        plt.scatter(landmarks[:, 0], landmarks[:, 1], c='r', s=10)
         plt.show()
 
 if __name__ == '__main__':
