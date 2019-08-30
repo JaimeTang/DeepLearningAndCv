@@ -4,6 +4,7 @@ from torchvision import transforms
 from torch.utils.data import Dataset
 from PIL import Image
 import matplotlib.pyplot as plt
+import cv2
 
 
 folder_list = ['I', 'II']
@@ -53,7 +54,6 @@ class ToTensor(object):
         return {'image': torch.from_numpy(image),
                 'landmarks': torch.from_numpy(landmarks)}
 
-
 class FaceLandmarksDataset(Dataset):
     # Face Landmarks Dataset
     def __init__(self, src_lines, transform=None):
@@ -71,9 +71,11 @@ class FaceLandmarksDataset(Dataset):
     def __getitem__(self, idx):
         img_name, rect, landmarks = parse_line(self.lines[idx])
         # image
+        print(rect)
         img = Image.open(img_name)#.convert('L')
         h, w = img.size
-        img_crop = img.crop(tuple(rect))
+        ##img_crop = img.crop(tuple(rect))
+        img_crop = img
         new_h, new_w = img_crop.size
         landmarks = np.array(landmarks).astype(np.float32)
 
@@ -81,12 +83,14 @@ class FaceLandmarksDataset(Dataset):
 		# please complete your code under this blank
 		# your code:
         landmarks = landmarks.reshape(-1, 2)
-        landmarks = landmarks*[new_h/h, new_w/w]
+
+        top = rect[1]
+        left = rect[0]
+        ##landmarks = landmarks - [left, top]
 
         sample = {'image': img_crop, 'landmarks': landmarks}
         sample = self.transform(sample)
         return sample
-
 
 def load_data(phase):
     data_file = phase + '.txt'
@@ -94,37 +98,24 @@ def load_data(phase):
         lines = f.readlines()
 
     if phase == 'Train' or phase == 'train':
-        ##tsfm = transforms.Compose([Normalize(), ToTensor()])
+        ## tsfm = transforms.Compose([Normalize(), ToTensor()])
         tsfm = transforms.Compose([ToTensor()])
     else:
         tsfm = transforms.Compose([Normalize(), ToTensor()])
     data_set = FaceLandmarksDataset(lines, transform=tsfm)
     return data_set
 
-
 def get_train_test_set():
     train_set = load_data('train')
     valid_set = load_data('test')
     return train_set, valid_set
 
-
 def main():
-    ##train_set = load_data('train')
     train_set = load_data('train')
     for i in range(0, len(train_set)):
         sample = train_set[i]
         img = sample['image'][0].numpy()
         landmarks = sample['landmarks'].numpy()
-        # x = []
-        # y = []
-        # for i in range(len(landmarks)):
-        #     if i%2 == 0:
-        #         x.append(landmarks[i])
-        #     else:
-        #         y.append(landmarks[i])
-        ## 请画出人脸crop以及对应的landmarks
-        # please complete your code under this blank
-        print(landmarks)
         plt.imshow(img)
         plt.scatter(landmarks[:, 0], landmarks[:, 1], c='r', s=10)
         plt.show()
