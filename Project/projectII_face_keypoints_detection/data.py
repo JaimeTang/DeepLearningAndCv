@@ -1,3 +1,5 @@
+## https://pytorch.org/tutorials/beginner/data_loading_tutorial.html
+
 import numpy as np
 import torch
 from torchvision import transforms
@@ -72,7 +74,7 @@ class FaceLandmarksDataset(Dataset):
         img_name, rect, landmarks = parse_line(self.lines[idx])
         # image
         print(rect)
-        img = Image.open(img_name)#.convert('L')
+        img = Image.open(img_name).convert('L')
         h, w = img.size
         ##img_crop = img.crop(tuple(rect))
         img_crop = img
@@ -116,9 +118,15 @@ def main():
         sample = train_set[i]
         img = sample['image'][0].numpy()
         landmarks = sample['landmarks'].numpy()
-        plt.imshow(img)
-        plt.scatter(landmarks[:, 0], landmarks[:, 1], c='r', s=10)
-        plt.show()
+        print(landmarks)
+        img = cv2.cvtColor(img, cv2.COLOR_GRAY2RGB)
+        cv2.imshow("img", img)
+        #cv2.circle(img, tuple(landmarks), 2, (0, 0, 255), -1)
+        key = cv2.waitKey()
+        if key == 27:
+            exit()
+        cv2.destroyAllWindows()
 
 if __name__ == '__main__':
     main()
+
