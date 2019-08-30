@@ -75,8 +75,9 @@ class FaceLandmarksDataset(Dataset):
     def __getitem__(self, idx):
         img_name, rect, landmarks = parse_line(self.lines[idx])
         # image
-        img = Image.open(img_name).convert('L')
-        img_crop = img.crop(tuple(rect))
+        img = Image.open(img_name)#.convert('L')
+        ###img_crop = img.crop(tuple(rect))
+        img_crop = img
         landmarks = np.array(landmarks).astype(np.float32)
 
 		# you should let your landmarks fit to the train_boarder(112)
@@ -96,7 +97,8 @@ def load_data(phase):
         lines = f.readlines()
 
     if phase == 'Train' or phase == 'train':
-        tsfm = transforms.Compose([Normalize(), ToTensor()])
+        ##tsfm = transforms.Compose([Normalize(), ToTensor()])
+        tsfm = transforms.Compose([ToTensor()])
     else:
         tsfm = transforms.Compose([Normalize(), ToTensor()])
     data_set = FaceLandmarksDataset(lines, transform=tsfm)
@@ -130,7 +132,7 @@ def main():
         print(y)
 
         plt.imshow(img)
-        plt.scatter(x,y,c='r')
+        plt.scatter(x,y,c='r',s=0.3)
         plt.show()
 
 if __name__ == '__main__':
