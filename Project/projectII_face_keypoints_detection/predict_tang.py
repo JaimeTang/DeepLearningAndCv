@@ -1,12 +1,7 @@
 from __future__ import print_function
 import argparse
 import torch
-import torch.nn as nn
-import torch.nn.functional as F
-import torch.optim as optim
 from torch.utils.data.sampler import SubsetRandomSampler
-from torchvision import datasets, transforms
-import numpy as np
 import os
 from detector_tang import Net
 import cv2
@@ -41,8 +36,9 @@ def predict(args, trained_model, model, valid_loader):
             for landmark_truth, landmark_generated in zip(landmarks_truth, landmarks_generated):
                 cv2.circle(img, tuple(landmark_truth), 2, (0, 0, 255), -1)
                 cv2.circle(img, tuple(landmark_generated), 2, (0, 255, 0), -1)
-
+            out = img*255
             cv2.imshow(str(i), img)
+            cv2.imwrite("img/img_{}.png".format(i), out)
             key = cv2.waitKey()
             if key == 27:
                 exit()
