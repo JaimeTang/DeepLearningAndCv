@@ -84,6 +84,7 @@ class FaceLandmarksDataset(Dataset):
         left = rect[0]
         landmarks  -= [left, top]
         landmarks *= [112/h, 112/w]
+        landmarks = landmarks.reshape(-1, 1)
 
         sample = {'image': img_crop, 'landmarks': landmarks}
         sample = self.transform(sample)
@@ -130,7 +131,7 @@ def main():
             exit()
         cv2.destroyAllWindows()
 
-if __name__=='__main__':
-    # train_set, valid_set = get_train_test_set()
-    # print(train_set[0]['image'].shape)
-    main()
+# if __name__=='__main__':
+#     # train_set, valid_set = get_train_test_set()
+#     # print(train_set[0]['image'].shape)
+#     main()

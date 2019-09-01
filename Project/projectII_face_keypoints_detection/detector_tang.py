@@ -44,38 +44,38 @@ class Net(nn.Module):
 
     def forward(self, x):
         # block 1
-        print('x input shape: ', x.shape)
+        #print('x input shape: ', x.shape)
         x = self.ave_pool(self.prelu1_1(self.conv1_1(x)))
-        print('x after block1 and pool shape should be 32x8x27x27: ', x.shape)     # good
+        #print('x after block1 and pool shape should be 32x8x27x27: ', x.shape)     # good
         # block 2
         x = self.prelu2_1(self.conv2_1(x))
-        print('b2: after conv2_1 and prelu shape should be 32x16x25x25: ', x.shape) # good
+        # print('b2: after conv2_1 and prelu shape should be 32x16x25x25: ', x.shape) # good
         x = self.prelu2_2(self.conv2_2(x))
         # print('b2: after conv2_2 and prelu shape should be 32x16x23x23: ', x.shape) # good
         x = self.ave_pool(x)
-        print('x after block2 and pool shape should be 32x16x12x12: ', x.shape)
+        # print('x after block2 and pool shape should be 32x16x12x12: ', x.shape)
         # block 3
         x = self.prelu3_1(self.conv3_1(x))
-        print('b3: after conv3_1 and pool shape should be 32x24x10x10: ', x.shape)
+        # print('b3: after conv3_1 and pool shape should be 32x24x10x10: ', x.shape)
         x = self.prelu3_2(self.conv3_2(x))
         # print('b3: after conv3_2 and pool shape should be 32x24x8x8: ', x.shape)
         x = self.ave_pool(x)
-        print('x after block3 and pool shape should be 32x24x4x4: ', x.shape)
+        # print('x after block3 and pool shape should be 32x24x4x4: ', x.shape)
         # block 4
         x = self.prelu4_1(self.conv4_1(x))
-        print('x after conv4_1 and pool shape should be 32x40x4x4: ', x.shape)
+        # print('x after conv4_1 and pool shape should be 32x40x4x4: ', x.shape)
 
         # points branch
         ip3 = self.prelu4_2(self.conv4_2(x))
-        print('pts: ip3 after conv4_2 and pool shape should be 32x80x4x4: ', ip3.shape)
+        # print('pts: ip3 after conv4_2 and pool shape should be 32x80x4x4: ', ip3.shape)
         ip3 = ip3.view(-1, 4 * 4 * 80)
-        print('ip3 flatten shape should be 32x1280: ', ip3.shape)
+        # print('ip3 flatten shape should be 32x1280: ', ip3.shape)
         ip3 = self.preluip1(self.ip1(ip3))
-        print('ip3 after ip1 shape should be 32x128: ', ip3.shape)
+        # print('ip3 after ip1 shape should be 32x128: ', ip3.shape)
         ip3 = self.preluip2(self.ip2(ip3))
-        print('ip3 after ip2 shape should be 32x128: ', ip3.shape)
+        # print('ip3 after ip2 shape should be 32x128: ', ip3.shape)
         ip3 = self.ip3(ip3)
-        print('ip3 after ip3 shape should be 32x42: ', ip3.shape)
+        # print('ip3 after ip3 shape should be 32x42: ', ip3.shape)
 
         return ip3
 
@@ -112,6 +112,8 @@ def train(args, train_loader, valid_loader, model, criterion, optimizer, device)
 
             # get output
             output_pts = model(input_img)
+            output_pts = output_pts.reshape(-1,1)
+            target_pts = target_pts.view(-1, 1)
 
             # get loss
             loss = pts_criterion(output_pts, target_pts)
@@ -149,6 +151,10 @@ def train(args, train_loader, valid_loader, model, criterion, optimizer, device)
                 target_pts = landmark.to(device)
 
                 output_pts = model(input_img)
+
+                output_pts = output_pts.reshape(-1, 1)
+                target_pts = target_pts.view(-1, 1)
+
                 valid_loss = pts_criterion(output_pts, target_pts)
 
                 valid_mean_pts_loss += valid_loss.item()
@@ -168,15 +174,16 @@ def train(args, train_loader, valid_loader, model, criterion, optimizer, device)
 
 def main_test():
     parser = argparse.ArgumentParser(description='Detector')
-    parser.add_argument('--batch-size', type=int, default=64, metavar='N',help='input batch size for training (default: 64)')
-    parser.add_argument('--test-batch-size', type=int, default=64, metavar='N',		
-                        help='input batch size for testing (default: 64)')
-    parser.add_argument('--epochs', type=int, default=100, metavar='N',
-                        help='number of epochs to train (default: 100)')
+    parser.add_argument('--batch-size', type=int, default=32, metavar='N',
+                        help='input batch size for training (default: 32)')
+    parser.add_argument('--test-batch-size', type=int, default=32, metavar='N',
+                        help='input batch size for testing (default: 32)')
+    parser.add_argument('--epochs', type=int, default=10, metavar='N',
+                        help='number of epochs to train (default: 10)')
     parser.add_argument('--lr', type=float, default=0.001, metavar='LR',
                         help='learning rate (default: 0.001)')
-    parser.add_argument('--momentum', type=float, default=0.5, metavar='M',
-                        help='SGD momentum (default: 0.5)')
+    parser.add_argument('--momentum', type=float, default=0.3, metavar='M',
+                        help='SGD momentum (default: 0.3)')
     parser.add_argument('--no-cuda', action='store_true', default=False,
                         help='disables CUDA training')
     parser.add_argument('--seed', type=int, default=1, metavar='S',
