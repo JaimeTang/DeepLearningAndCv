@@ -1,5 +1,3 @@
-## https://pytorch.org/tutorials/beginner/data_loading_tutorial.html
-
 import numpy as np
 import torch
 from torchvision import transforms
@@ -99,7 +97,8 @@ def load_data(phase):
         ##tsfm = transforms.Compose([Normalize(), ToTensor()])
         tsfm = transforms.Compose([ToTensor()])
     else:
-        tsfm = transforms.Compose([Normalize(), ToTensor()])
+        ##tsfm = transforms.Compose([Normalize(), ToTensor()])
+        tsfm = transforms.Compose([ToTensor()])
     data_set = FaceLandmarksDataset(lines, transform=tsfm)
     return data_set
 
@@ -109,7 +108,7 @@ def get_train_test_set():
     return train_set, valid_set
 
 def main():
-    train_set = load_data('train')
+    train_set = load_data('test')
 
     for i in range(0, len(train_set)):
         sample = train_set[i]
@@ -129,7 +128,3 @@ def main():
         if key == 27:
             exit()
         cv2.destroyAllWindows()
-
-if __name__ == '__main__':
-    main()
-
