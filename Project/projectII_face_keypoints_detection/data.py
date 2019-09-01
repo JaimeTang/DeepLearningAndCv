@@ -5,7 +5,6 @@ import torch
 from torchvision import transforms
 from torch.utils.data import Dataset
 from PIL import Image
-import matplotlib.pyplot as plt
 import cv2
 
 
@@ -73,7 +72,6 @@ class FaceLandmarksDataset(Dataset):
     def __getitem__(self, idx):
         img_name, rect, landmarks = parse_line(self.lines[idx])
         # image
-        print(rect)
         img = Image.open(img_name).convert('L')
         h, w = img.size
         ##img_crop = img.crop(tuple(rect))
@@ -92,6 +90,7 @@ class FaceLandmarksDataset(Dataset):
 
         sample = {'image': img_crop, 'landmarks': landmarks}
         sample = self.transform(sample)
+        sample['rect'] = rect
         return sample
 
 def load_data(phase):
@@ -114,14 +113,22 @@ def get_train_test_set():
 
 def main():
     train_set = load_data('train')
+
     for i in range(0, len(train_set)):
         sample = train_set[i]
         img = sample['image'][0].numpy()
         landmarks = sample['landmarks'].numpy()
-        print(landmarks)
+
+        rect = sample['rect']
+        print(rect)
         img = cv2.cvtColor(img, cv2.COLOR_GRAY2RGB)
+        cv2.rectangle(img, (rect[0], rect[1]),(rect[2], rect[3]), (0, 255, 0), 2)
+
+        for point in  landmarks:
+            print(point)
+            cv2.circle(img, tuple(point), 1, color=(0, 0, 255), thickness=-1)
+
         cv2.imshow("img", img)
-        #cv2.circle(img, tuple(landmarks), 2, (0, 0, 255), -1)
         key = cv2.waitKey()
         if key == 27:
             exit()
