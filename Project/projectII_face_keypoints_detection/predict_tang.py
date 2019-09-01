@@ -8,9 +8,9 @@ from torch.utils.data.sampler import SubsetRandomSampler
 from torchvision import datasets, transforms
 import numpy as np
 import os
+from detector_tang import Net
 import cv2
-
-from data import get_train_test_set
+from data_tang import get_train_test_set
 
 # 此部分代码针对stage 1中的predict。 是其配套参考代码
 # 对于stage3， 唯一的不同在于，需要接收除了pts以外，还有：label与分类loss。
@@ -23,7 +23,6 @@ def predict(args, trained_model, model, valid_loader):
             # forward pass: compute predicted outputs by passing inputs to the model
             img = batch['image']
             landmark = batch['landmarks']
-            print('i: ', i)
             # generated
             output_pts = model(img)
             outputs = output_pts.numpy()[0]
@@ -48,3 +47,21 @@ def predict(args, trained_model, model, valid_loader):
             if key == 27:
                 exit()
             cv2.destroyAllWindows()
+
+
+def main():
+    parser = argparse.ArgumentParser(description='Detector')
+    parser.add_argument('--save-directory', type=str, default='trained_models',
+                        help='learnt models are saving here')
+    args = parser.parse_args()
+
+    _, valid_set = get_train_test_set()
+    valid_loader = torch.utils.data.DataLoader(dataset=valid_set, batch_size=1)
+
+    trained_model = 'detector_epoch_0.pt'
+    model = Net()
+
+    predict(args, trained_model, model, valid_loader)
+
+if __name__=='__main__':
+    main()

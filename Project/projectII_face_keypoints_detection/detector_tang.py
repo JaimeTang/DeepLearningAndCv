@@ -178,10 +178,10 @@ def main_test():
                         help='input batch size for training (default: 32)')
     parser.add_argument('--test-batch-size', type=int, default=32, metavar='N',
                         help='input batch size for testing (default: 32)')
-    parser.add_argument('--epochs', type=int, default=10, metavar='N',
-                        help='number of epochs to train (default: 10)')
-    parser.add_argument('--lr', type=float, default=0.001, metavar='LR',
-                        help='learning rate (default: 0.001)')
+    parser.add_argument('--epochs', type=int, default=5, metavar='N',
+                        help='number of epochs to train (default: 5)')
+    parser.add_argument('--lr', type=float, default=0.01, metavar='LR',
+                        help='learning rate (default: 0.01)')
     parser.add_argument('--momentum', type=float, default=0.3, metavar='M',
                         help='SGD momentum (default: 0.3)')
     parser.add_argument('--no-cuda', action='store_true', default=False,
@@ -215,7 +215,8 @@ def main_test():
     model = Net().to(device)
     ####################################################################
     criterion_pts = nn.MSELoss()
-    optimizer = optim.SGD(model.parameters(), lr=args.lr, momentum=args.momentum)
+    # optimizer = optim.SGD(model.parameters(), lr=args.lr, momentum=args.momentum)
+    optimizer = optim.Adam(model.parameters(), lr = args.lr)
     ####################################################################
     if args.phase == 'Train' or args.phase == 'train':
         print('===> Start Training')
