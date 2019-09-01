@@ -72,6 +72,7 @@ class FaceLandmarksDataset(Dataset):
         # image
         img = Image.open(img_name).convert('L')
         img_crop = img.crop(tuple(rect))
+        h, w = img_crop.size
         landmarks = np.array(landmarks).astype(np.float32)
 
 		# you should let your landmarks fit to the train_boarder(112)
@@ -82,10 +83,11 @@ class FaceLandmarksDataset(Dataset):
         top = rect[1]
         left = rect[0]
         landmarks  -= [left, top]
+        landmarks *= [112/h, 112/w]
 
         sample = {'image': img_crop, 'landmarks': landmarks}
         sample = self.transform(sample)
-        sample['rect'] = rect
+        ##sample['rect'] = rect
         return sample
 
 def load_data(phase):
@@ -94,11 +96,11 @@ def load_data(phase):
         lines = f.readlines()
 
     if phase == 'Train' or phase == 'train':
-        ##tsfm = transforms.Compose([Normalize(), ToTensor()])
-        tsfm = transforms.Compose([ToTensor()])
+        tsfm = transforms.Compose([Normalize(), ToTensor()])
+        ##tsfm = transforms.Compose([ToTensor()])
     else:
-        ##tsfm = transforms.Compose([Normalize(), ToTensor()])
-        tsfm = transforms.Compose([ToTensor()])
+        tsfm = transforms.Compose([Normalize(), ToTensor()])
+        ##tsfm = transforms.Compose([ToTensor()])
     data_set = FaceLandmarksDataset(lines, transform=tsfm)
     return data_set
 
@@ -108,23 +110,27 @@ def get_train_test_set():
     return train_set, valid_set
 
 def main():
-    train_set = load_data('test')
+    train_set = load_data('train')
 
     for i in range(0, len(train_set)):
         sample = train_set[i]
         img = sample['image'][0].numpy()
         landmarks = sample['landmarks'].numpy()
-
         img = cv2.cvtColor(img, cv2.COLOR_GRAY2RGB)
 
         # rect = sample['rect']
         #cv2.rectangle(img, (rect[0], rect[1]), (rect[2], rect[3]), (0, 255, 0), 2)
 
         for point in  landmarks:
-            cv2.circle(img, tuple(point), 1, color=(0, 0, 255), thickness=-1)
+            cv2.circle(img, tuple(point), 2, color=(0, 0, 255), thickness=-1)
 
         cv2.imshow("img", img)
         key = cv2.waitKey()
         if key == 27:
             exit()
         cv2.destroyAllWindows()
+
+if __name__=='__main__':
+    # train_set, valid_set = get_train_test_set()
+    # print(train_set[0]['image'].shape)
+    main()
