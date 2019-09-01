@@ -12,7 +12,7 @@ import numpy as np
 import os
 import cv2
 
-from data import get_train_test_set
+from data_tang import get_train_test_set
 from predict import predict
 
 torch.set_default_tensor_type(torch.FloatTensor)
@@ -233,7 +233,6 @@ def main_test():
     elif args.phase == 'Predict' or args.phase == 'predict':
         print('===> Predict')
         # how to do predict?
-
 
 if __name__ == '__main__':
     main_test()

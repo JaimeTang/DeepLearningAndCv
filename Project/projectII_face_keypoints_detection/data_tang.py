@@ -96,7 +96,7 @@ def load_data(phase):
         lines = f.readlines()
 
     if phase == 'Train' or phase == 'train':
-        ## tsfm = transforms.Compose([Normalize(), ToTensor()])
+        ##tsfm = transforms.Compose([Normalize(), ToTensor()])
         tsfm = transforms.Compose([ToTensor()])
     else:
         tsfm = transforms.Compose([Normalize(), ToTensor()])

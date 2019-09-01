@@ -62,13 +62,22 @@ def load_metadata():
     tmp_lines = []
     for folder_name in folder_list:
         folder = os.path.join('data', folder_name)
-        metadata_file = os.path.join(folder, 'metadata')
+        metadata_file = os.path.join(folder, 'label.txt')
         with open(metadata_file) as f:
             lines = f.readlines()
         tmp_lines.extend(list(map((folder + '/').__add__, lines)))
     res_lines = remove_invalid_image(tmp_lines)
     return res_lines
 
+def gener_txt(lines):
+    train_file = open("train.txt", "w")
+    test_file = open("test.txt", "w")
+    for idx, line in enumerate(lines):
+        if idx % 9 == 0:
+            test_file.write(line)
+            continue
+        train_file.write(line)
+    return
 
 def load_truth(lines):
     truth = {}
@@ -239,6 +248,9 @@ def generate_random_crops(shape, rects, random_times):
     return random_rects
 
 
+def main():
+    a = load_metadata()
+    gener_txt(a)
 
 if __name__=='__main__':
-    pass
+    main()
