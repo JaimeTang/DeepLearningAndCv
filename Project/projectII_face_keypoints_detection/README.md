@@ -26,9 +26,9 @@ predict_tang.py
 
 预测文件的部分输出结果如下：
 
-![](img/img_0.png) ![](img/img_1.png) ![](img/img_2.png)  
+![](img\img_0.png) ![](img\img_1.png) ![](img\img_2.png)  
 
-![](img/img_3.png) ![](img/img_4.png) ![](img/img_5.png)
+![](img\img_3.png) ![](img\img_4.png) ![](img\img_5.png)
 
 ## 软件版本
 
