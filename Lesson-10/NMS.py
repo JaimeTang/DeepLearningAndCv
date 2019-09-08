@@ -9,10 +9,8 @@ def NMS(lists, thresh):
     y2 = dets[:, 3]
     scores = dets[:, 4]
 
-    area = (x2 - x1)*(y2 - y1)
-
+    area = (x2 - x1 + 1)*(y2 - y1 + 1)
     order = scores.argsort()[::-1]
-
     keep = []
 
     while order.size > 0:
