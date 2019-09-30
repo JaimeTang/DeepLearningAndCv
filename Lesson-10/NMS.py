@@ -31,7 +31,7 @@ def NMS(lists, thresh):
         inds = np.where(ovr <= thresh)[0]
         order = order[inds + 1]
 
-        return keep
+    return keep
 
 
 def main():
